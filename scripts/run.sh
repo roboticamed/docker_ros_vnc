@@ -10,8 +10,10 @@ if [ "$OS_SIMPLE" == "d" ] || [ "$OS_SIMPLE" == "m" ]; then
     docker run -it --rm \
         --name ${DCONTAINER_NAME} \
         -p 6080:80 \
+        -p 5900:5900 \
+        --net=${DROS_NETWORK} \
         --mount type=bind,source=${PROJECT_ROOT}/${WS_ROS}/,target=/${WS_ROS}/ \
-        ${DIMAGE_NAME}
+        --rm ${DIMAGE_NAME}
 else
     docker run --privileged --rm -it \
         --name ${DCONTAINER_NAME} \
@@ -24,5 +26,5 @@ else
         -v ${PROJECT_ROOT}/${WS_ROS}:/${WS_ROS} \
         --net=${DROS_NETWORK} \
         -t \
-        ${DIMAGE_NAME}
+        --rm ${DIMAGE_NAME}
 fi
